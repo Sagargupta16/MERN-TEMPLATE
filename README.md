@@ -1,156 +1,161 @@
-# My Journey
+# MERN Stack Template
 
-This Project Contains All The Information About My Journey In My Life.
+A production-ready MERN stack template with JWT authentication, email OTP verification, rate limiting, and structured logging -- designed as a reusable starting point for new projects.
 
-## File Structure
+![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
 
-The file structure of the project is as follows:
+## Overview
 
-```bash
-Placemento
-├── client
-│   ├── public
-│   └── src
-│       ├── api
-│       ├── components
-│       ├── pages
-│       ├── utils
-│       ├── App.jsx
-│       ├── index.js
-│       └── ...
-├── server
-│   ├── controllers
-│   ├── middleware
-│   ├── models
-│   ├── routes
-│   ├── utils
-│   ├── index.js
-│   └── ...
-├── .gitignore
-├── package.json
-└── ...
+A clean, well-structured MERN (MongoDB, Express, React, Node.js) template with authentication, security best practices, and modern tooling already configured. Fork this template to start building full-stack applications without boilerplate setup.
+
+## What's Included
+
+### Frontend
+- React with Vite 7 (fast HMR)
+- Tailwind CSS 4 for styling
+- React Router 7 for navigation
+- Axios with configured interceptors
+- Toast notifications
+- Auth forms (login/signup)
+- Profile page template
+- Protected route pattern
+
+### Backend
+- Express with MVC architecture
+- JWT authentication with secure token handling
+- Email OTP verification
+- bcrypt password hashing
+- Rate limiting per endpoint
+- Helmet security headers
+- Winston structured logging
+- MongoDB with Mongoose ODM
+
+## Project Structure
+
+```
+MERN-TEMPLATE/
+├── client/                      # React frontend (Vite)
+│   ├── src/
+│   │   ├── api/                # API layer
+│   │   │   ├── authApi.jsx     # Auth endpoints
+│   │   │   ├── userApi.jsx     # User endpoints
+│   │   │   ├── axiosInstance.jsx # Configured Axios
+│   │   │   └── tokenCheckApi.jsx # Token validation
+│   │   ├── components/
+│   │   │   ├── AuthForms/      # Login/Signup forms
+│   │   │   ├── Filter/         # Search/filter
+│   │   │   ├── Modal/          # Reusable modals
+│   │   │   ├── NavBar/         # Navigation
+│   │   │   ├── NotFound/       # 404 page
+│   │   │   └── ToastContent/   # Notifications
+│   │   ├── pages/
+│   │   │   ├── Auth/           # Auth page
+│   │   │   ├── Home/           # Home page
+│   │   │   └── Profile/        # User profile
+│   │   └── utils/              # Helper functions
+│   └── package.json
+├── server/                      # Express backend
+│   ├── controllers/
+│   │   ├── authController.js   # Auth logic
+│   │   └── userController.js   # User logic
+│   ├── middleware/
+│   │   └── authMiddleware.js   # JWT verification
+│   ├── models/
+│   │   ├── User.js             # User schema
+│   │   └── Otp.js              # OTP schema
+│   ├── routes/
+│   │   ├── authRoutes.js       # Auth endpoints
+│   │   └── userRoutes.js       # User endpoints
+│   ├── utils/
+│   │   ├── limiter.js          # Rate limiting
+│   │   └── logger.js           # Winston logging
+│   └── package.json
+├── Procfile                     # Production deployment
+├── SECURITY.md
+└── package.json                 # Root scripts
 ```
 
-## Installation
-
-To get started, follow these instructions to install the project on your local machine.
+## Getting Started
 
 ### Prerequisites
 
-Make sure you have the following installed on your machine:
+- Node.js 20+
+- MongoDB (local or Atlas)
 
-- Node.js (v20.0.0 or higher)
-- npm (v10.0.0 or higher)
+### Installation
 
-### Steps
+```bash
+git clone https://github.com/Sagargupta16/MERN-TEMPLATE.git
+cd MERN-TEMPLATE
 
-1. Creating your branch:
+# Install all dependencies (root + client + server)
+npm run fb-install
+```
 
-   I. For Organization Members:
+### Environment Variables
 
-   - **Branch Creation:** As an organization member, when working on a new feature or task, you should create a new branch from the "develop" branch.
-     The branch name should be in the format `feature-` where `<description>` represents a short description of the task or feature you are working
-     on. For example, if you are adding a login feature, the branch name could be `feature-login`.
-   - **Code Implementation:** Implement the necessary changes and new features on your created branch. Make sure to adhere to the organization's
-     coding standards and best practices.
-   - **Code Testing:** Thoroughly test your changes on the branch to ensure that they work as expected and do not introduce any bugs or issues.
-   - **Code Review:** If required by the organization's development process, request a code review from your peers to ensure code quality and
-     adherence to project guidelines.
-   - **Pull Request Creation:** Once you are confident that your code is complete and tested, create a pull request to merge your changes from the
-     `feature-*` branch into the `develop` branch. Clearly explain the purpose and scope of the changes in the pull request description.
+Create `.env` in the `server/` directory:
 
-   II. For External Contributors:
+```env
+MONGODB_URI=mongodb://localhost:27017/your-app
+JWT_SECRET=your_jwt_secret_key
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_app_password
+```
 
-   - **Forking the Repository:** If you are an external contributor, you should fork the repository to your GitHub account. This will create a copy of
-     the repository under your account, which you can use to make changes and submit pull requests.
+### Running
 
-   - **Branch Creation:** After forking the repository, create a new branch from the `develop` branch. The branch name should be in the format
-     `feature-` where `<description>` represents a short description of the task or feature you are working on. For example, if you are adding a login
-     feature, the branch name could be `feature-login`.
+```bash
+# Start both frontend and backend
+npm run dev
 
-   - **Code Implementation:** Implement the necessary changes and new features on your created branch. Make sure to adhere to the organization's
-     coding standards and best practices.
+# Frontend only
+npm run frontend-start
 
-   - **Code Testing:** Thoroughly test your changes on the branch to ensure that they work as expected and do not introduce any bugs or issues.
+# Backend only
+npm run backend-start
+```
 
-   - **Code Review:** If required by the organization's development process, request a code review from your peers to ensure code quality and
-     adherence to project guidelines.
+| Service | URL |
+|---------|-----|
+| Frontend | http://localhost:5173 |
+| Backend | http://localhost:5000 |
 
-   - **Pull Request Creation:** Once you are confident that your code is complete and tested, create a pull request to merge your changes from the
-     `feature-*` branch into the `develop` branch. Clearly explain the purpose and scope of the changes in the pull request description.
+## Security Features
 
-2. Clone the repository:
+- JWT tokens with secure handling
+- bcrypt password hashing (10 salt rounds)
+- Rate limiting on auth endpoints
+- Helmet security headers
+- CORS configuration
+- Input validation
+- OTP email verification
 
-   ```bash
-   git clone https://github.com/Sagargupta16/My_Journey.git
-   ```
+## How to Use This Template
 
-3. Navigate to the project directory:
+1. Fork or clone this repository
+2. Update `package.json` with your project name
+3. Configure environment variables
+4. Modify the User model to fit your schema
+5. Add your routes, controllers, and pages
+6. Deploy (Procfile included for Heroku/Render)
 
-   ```bash
-   cd my_journey
-   ```
+## Available Scripts
 
-4. Install the project dependencies:
-
-   ```bash
-   npm install
-   npm run fb-install
-   ```
-
-5. Start the development server:
-
-   ```bash
-   npm run dev
-   ```
-
-6. Open the application in your browser:
-
-   ```bash
-   http://localhost:3000
-   ```
-
-   The application should now be running in your browser.
-
-## Contributing
-
-If you would like to contribute to the project, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information.
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start both servers concurrently |
+| `npm run frontend-start` | Start Vite dev server |
+| `npm run backend-start` | Start Express server |
+| `npm run fb-install` | Install all dependencies |
+| `npm run format` | Format code with Prettier |
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-
-## Contact
-
-If you have any questions or need further assistance, please feel free to contact us.
-
-## Project Status
-
-The project is currently under development. The initial version of the project is expected to be released soon.
-
-## Project Team
-
-The project team consists of the following members:
-
-- [Sagar Gupta](https://github.com/Sagargupta16 'Sagar Gupta')
-
-## References
-
-- [MERN Stack](https://www.mongodb.com/mern-stack 'MERN Stack')
-- [React](https://reactjs.org/ 'React')
-- [Node.js](https://nodejs.org/ 'Node.js')
-- [Express](https://expressjs.com/ 'Express')
-- [MongoDB](https://www.mongodb.com/ 'MongoDB')
-- [AG Grid](https://www.ag-grid.com/ 'AG Grid')
-- [AG Charts](https://www.ag-grid.com/ag-charts-overview/ 'AG Charts')
-- [React-Router](https://reactrouter.com/ 'React-Router')
-- [Axios](https://axios-http.com/ 'Axios')
-- [JWT](https://jwt.io/ 'JWT')
-- [Bcrypt](https://www.npmjs.com/package/bcrypt 'Bcrypt')
-- [Mongoose](https://mongoosejs.com/ 'Mongoose')
-- [Nodemailer](https://nodemailer.com/ 'Nodemailer')
-- [Dotenv](https://www.npmjs.com/package/dotenv 'Dotenv')
-- [Cors](https://www.npmjs.com/package/cors 'Cors')
-- [Nodemon](https://www.npmjs.com/package/nodemon 'Nodemon')
-- [Concurrently](https://www.npmjs.com/package/concurrently 'Concurrently')
-- [Prettier](https://prettier.io/ 'Prettier')
+MIT
