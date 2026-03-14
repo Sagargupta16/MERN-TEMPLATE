@@ -1,26 +1,19 @@
 {
-	"name": "my_journey",
-	"version": "1.0.0",
-	"description": "My Personal Journey",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"format": "prettier --write .",
-		"frontend-start": "cd client && npm start",
-		"frontent-build": "cd client && npm run build",
-		"frontend-install": "cd client && npm install",
-		"backend-start": "cd server && npm start",
-		"backend-install": "cd server && npm install",
-		"start": "concurrently \"npm run backend-start\" \"npm run frontend-start\"",
-		"fb-install": "concurrently \"npm install\" \"npm run backend-install\" \"npm run frontend-install\"",
-		"frontend-build": "cd client && npm run build"
-	},
-	"author": "Sagar Gupta",
-	"license": "ISC",
-	"devDependencies": {
-		"prettier": "^3.1.1",
-		"prettier-plugin-organize-imports": "^4.0.0"
-	},
-	"dependencies": {
-		"concurrently": "^9.0.0"
-	}
+  "name": "mern-template",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start",
+    "frontend-build": "cd client && npm run build",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0",
+    "prettier": "^3.4.0",
+    "prettier-plugin-organize-imports": "^4.0.0"
+  }
 }
