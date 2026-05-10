@@ -7,9 +7,15 @@ import Otp from '../models/Otp.js';
 import User from '../models/User.js';
 import logger from '../utils/logger.js';
 
+// Coerce body params to primitive strings to block NoSQL operator injection
+// (e.g. { email: { $gt: "" } } which would otherwise bypass findOne)
+const toSafeString = (value) => (value === undefined || value === null ? '' : String(value));
+
 export const postSignup = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const name = toSafeString(req.body.name).trim();
+    const email = toSafeString(req.body.email).trim().toLowerCase();
+    const password = toSafeString(req.body.password);
     if (!name || !email || !password) {
       return res.status(400).json({ errors: ['Name, Email and Password required'] });
     }
@@ -38,7 +44,8 @@ export const postSignup = async (req, res) => {
 
 export const getLogin = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const email = toSafeString(req.body.email).trim().toLowerCase();
+    const password = toSafeString(req.body.password);
     if (!email || !password) {
       return res.status(400).json({ status: false, errors: ['Email and Password required'] });
     }
@@ -65,7 +72,7 @@ export const getLogin = async (req, res) => {
 
 export const postVerifyEmail = async (req, res) => {
   try {
-    const { email } = req.body;
+    const email = toSafeString(req.body.email).trim().toLowerCase();
     if (!email) return res.status(400).json({ status: false, errors: ['Email required'] });
 
     const user = await User.findOne({ email });
@@ -103,7 +110,8 @@ export const postVerifyEmail = async (req, res) => {
 
 export const postVerifyOTP = async (req, res) => {
   try {
-    const { email, otp } = req.body;
+    const email = toSafeString(req.body.email).trim().toLowerCase();
+    const otp = toSafeString(req.body.otp);
     if (!email || !otp) return res.status(400).json({ status: false, errors: ['Email and OTP required'] });
 
     const user = await User.findOne({ email });
@@ -127,7 +135,9 @@ export const postVerifyOTP = async (req, res) => {
 
 export const postResetPassword = async (req, res) => {
   try {
-    const { email, otp, newPassword } = req.body;
+    const email = toSafeString(req.body.email).trim().toLowerCase();
+    const otp = toSafeString(req.body.otp);
+    const newPassword = toSafeString(req.body.newPassword);
     if (!email || !newPassword) return res.status(400).json({ status: false, errors: ['Email and Password required'] });
 
     const user = await User.findOne({ email });
