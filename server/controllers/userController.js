@@ -45,7 +45,12 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    // Scope deletes to the authenticated user only (prevents IDOR)
+    if (req.params.id !== req.user.id) {
+      return res.status(403).json({ errors: ['Forbidden'] });
+    }
+
+    const user = await User.findByIdAndDelete(req.user.id);
     if (!user) return res.status(404).json({ errors: ['User not found'] });
     res.json({ message: 'User deleted successfully' });
   } catch (error) {
