@@ -24,7 +24,17 @@ export const viewSingleUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }).select('-password');
+    // Scope updates to the authenticated user only (prevents IDOR)
+    if (req.params.id !== req.user.id) {
+      return res.status(403).json({ errors: ['Forbidden'] });
+    }
+
+    // Whitelist editable fields (prevents mass-assignment of email/password/role).
+    // Password changes go through the dedicated reset flow in authController.
+    const updates = {};
+    if (req.body.name !== undefined) updates.name = req.body.name;
+
+    const user = await User.findByIdAndUpdate(req.user.id, updates, { new: true }).select('-password');
     if (!user) return res.status(404).json({ errors: ['User not found'] });
     res.json(user);
   } catch (error) {
@@ -35,7 +45,12 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    // Scope deletes to the authenticated user only (prevents IDOR)
+    if (req.params.id !== req.user.id) {
+      return res.status(403).json({ errors: ['Forbidden'] });
+    }
+
+    const user = await User.findByIdAndDelete(req.user.id);
     if (!user) return res.status(404).json({ errors: ['User not found'] });
     res.json({ message: 'User deleted successfully' });
   } catch (error) {
