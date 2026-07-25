@@ -8,55 +8,49 @@ import Modal from '../Modal/Modal';
 import classes from './Navbar.module.css';
 
 const NavBar = () => {
-	const [navItems, setNavItems] = useState([]);
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [isTokenValid, setIsTokenValid] = useState(false);
 	const navigate = useNavigate();
 	const token = localStorage.getItem('token');
+	const isAuthenticated = Boolean(token) && isTokenValid;
 
 	useEffect(() => {
-		if (token) {
-			try {
-				checkToken().then((response) => {
-					if (response.data.isAuthenticated) setIsAuthenticated(true);
-					else setIsAuthenticated(false);
-				});
-			} catch (error) {
+		if (!token) return;
+
+		let cancelled = false;
+		checkToken()
+			.then((response) => {
+				if (!cancelled) setIsTokenValid(Boolean(response.data.isAuthenticated));
+			})
+			.catch((error) => {
+				if (cancelled) return;
 				localStorage.removeItem('token');
 				console.error('Error checking token:', error);
-				setIsAuthenticated(false);
-			}
-		} else setIsAuthenticated(false);
+				setIsTokenValid(false);
+			});
+
+		return () => {
+			cancelled = true;
+		};
 	}, [token]);
 
-	useEffect(() => {
-		const fixedItems = [
-			{
-				to: '/',
-				label: 'Home',
-				icon: <FaHome />
-			}
-		];
-
-		if (isAuthenticated) {
-			setNavItems([
-				...fixedItems,
-				{
+	const navItems = [
+		{
+			to: '/',
+			label: 'Home',
+			icon: <FaHome />
+		},
+		isAuthenticated
+			? {
 					to: 'profile',
 					label: 'Profile',
 					icon: <CgProfile />
 				}
-			]);
-		} else {
-			setNavItems([
-				...fixedItems,
-				{
+			: {
 					to: 'auth?mode=signin',
 					label: 'Auth',
 					icon: <FaSignInAlt />
 				}
-			]);
-		}
-	}, [isAuthenticated]);
+	];
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { forgotPassword, resetPassword, verifyOTP } from '../../api/authApi';
@@ -42,33 +42,31 @@ const ForgetPassword = () => {
 		}
 	};
 
-	const [message, setMessage] = useState('Enter your College Email ID!!');
-	const [buttonTitle, setButtonTitle] = useState('Send Email');
-	const [inputType, setInputType] = useState('email');
-	const [inputPlaceholder, setInputPlaceholder] = useState('Enter your email');
-	const [inputValue, setInputValue] = useState(email);
-
-	useEffect(() => {
-		if (counter === 0) {
-			setMessage('Enter your College Email ID!!');
-			setButtonTitle('Send Email');
-			setInputType('email');
-			setInputPlaceholder('Enter your email');
-			setInputValue(email);
-		} else if (counter === 1) {
-			setMessage('Check your email for OTP');
-			setButtonTitle('Verify OTP');
-			setInputType('number');
-			setInputPlaceholder('Enter OTP');
-			setInputValue(otp);
-		} else {
-			setMessage('Enter your new password');
-			setButtonTitle('Reset Password');
-			setInputType(showPassword ? 'text' : 'password');
-			setInputPlaceholder('Enter new password');
-			setInputValue(newPassword);
+	const steps = [
+		{
+			message: 'Enter your College Email ID!!',
+			buttonTitle: 'Send Email',
+			inputType: 'email',
+			inputPlaceholder: 'Enter your email',
+			inputValue: email
+		},
+		{
+			message: 'Check your email for OTP',
+			buttonTitle: 'Verify OTP',
+			inputType: 'number',
+			inputPlaceholder: 'Enter OTP',
+			inputValue: otp
+		},
+		{
+			message: 'Enter your new password',
+			buttonTitle: 'Reset Password',
+			inputType: showPassword ? 'text' : 'password',
+			inputPlaceholder: 'Enter new password',
+			inputValue: newPassword
 		}
-	}, [counter, email, newPassword, otp, showPassword]);
+	];
+
+	const { message, buttonTitle, inputType, inputPlaceholder, inputValue } = steps[Math.min(counter, 2)];
 
 	const inputRender = () => {
 		return (
