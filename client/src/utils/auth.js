@@ -7,7 +7,7 @@ const verifyToken = async (token) => {
 		if (!response.data.isAuthenticated) return false;
 		const exp = JSON.parse(atob(token.split('.')[1])).exp;
 		return exp > Date.now() / 1000;
-	} catch (error) {
+	} catch {
 		return false;
 	}
 };
